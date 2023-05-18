@@ -1,5 +1,5 @@
 // ignore_for_file: file_names
-
+/*
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -69,3 +69,4 @@ class TaskBox extends StatelessWidget {
 
 RichText is a very useful widget in Flutter, which is used for displaying a paragraph of text on the UI with multiple styles. Inside the widget, we can have
  */
+*/

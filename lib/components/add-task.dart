@@ -1,5 +1,5 @@
 // ignore_for_file: file_names
-
+/*
 import 'package:flutter/material.dart';
 import 'package:todo/common/style.dart';
 
@@ -24,7 +24,7 @@ class AddTask extends StatelessWidget {
             children: [
               TextFormField(
                 cursorColor: Colors.white,
-                style: style(context),
+                style: style(context).copyWith(color: Colors.white),
                 controller: controller,
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -61,3 +61,4 @@ class AddTask extends StatelessWidget {
     );
   }
 }
+*/

@@ -1,81 +1,37 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:todo/common/splash-screen.dart';
-import 'package:todo/common/style.dart';
+import 'package:todo/screens/home/kHome.dart';
+import 'package:todo/service/custom/style.dart';
+import 'package:todo/service/model/notes-model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final savedTheme = await AdaptiveTheme.getThemeMode();
+
+  await registerAdapters();
   await Hive.initFlutter();
-  var box = await Hive.openBox('myBox');
+  var box = await Hive.openBox('app');
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // Set status bar color to transparent
+    statusBarBrightness: Brightness.light, // Set status bar brightness
+    systemNavigationBarColor:
+        dark, // Set system navigation bar color to transparent
+    systemNavigationBarIconBrightness: Brightness.light,
+  ));
   runApp(
-    ProviderScope(
-      child: MainApp(
-        savedThemeMode: savedTheme,
-      ),
-    ),
+    MainApp(),
   );
 }
 
 class MainApp extends StatelessWidget {
-  final AdaptiveThemeMode? savedThemeMode;
-  const MainApp({
-    Key? key,
-    this.savedThemeMode,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return AdaptiveTheme(
-      light: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        primaryColor: blueC,
-        canvasColor: blueC,
-        shadowColor: darkC,
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: blueC),
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: darkC)
-            .copyWith(
-              bodyLarge: const TextStyle(
-                color: darkC,
-              ),
-              bodyMedium: const TextStyle(
-                color: darkC,
-              ),
-            ),
-      ),
-      dark: ThemeData(
-        scaffoldBackgroundColor: darkC,
-        primaryColor: blueC,
-        canvasColor: blueC,
-        shadowColor: Colors.white,
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: blueC),
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.white)
-            .copyWith(
-              bodyLarge: const TextStyle(
-                color: Colors.white,
-              ),
-              bodyMedium: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-      ),
-      initial: savedThemeMode ?? AdaptiveThemeMode.light,
-      builder: (theme, dark) {
-        return MaterialApp(
-          title: 'Yo, Chill!',
-          theme: theme,
-          darkTheme: dark,
-          debugShowCheckedModeBanner: false,
-          home: const SafeArea(
-            child: SplashScreen(),
-          ),
-        );
-      },
+    return MaterialApp(
+      title: 'Yo, Chill!',
+      theme: theme(context),
+      debugShowCheckedModeBanner: false,
+      home: kHome(),
     );
   }
 }
